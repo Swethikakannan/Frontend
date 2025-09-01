@@ -1,0 +1,146 @@
+/* Transactions.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f6fa; /* Main website background */
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h2, h3, h4 {
+  color: #2f3640;
+  margin-bottom: 15px;
+}
+
+/* Form sections */
+.form-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.form-section:hover {
+  transform: translateY(-2px);
+}
+
+.form-section input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-section input:focus {
+  outline: none;
+  border-color: #4b7bec;
+}
+
+/* Buttons */
+.form-section button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.form-section button:hover {
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  transform: translateY(-2px);
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+.table th, .table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  background-color: #6a11cb; /* gradient header optional */
+  color: white;
+  font-weight: 600;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f3f8;
+  cursor: pointer;
+}
+
+/* Fetch section buttons */
+.fetch-section input {
+  padding: 8px 12px;
+  margin-right: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.fetch-section input:focus {
+  border-color: #6a11cb;
+  outline: none;
+}
+
+.fetch-section button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #6a11cb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.fetch-section button:hover {
+  background-color: #2575fc;
+  transform: translateY(-1px);
+}
+
+
+
+/* Main content with scrolling */
+.main-content {
+  margin-left: 240px; /* width of sidebar */
+  padding: 20px;
+  height: 100vh; /* full viewport height */
+  overflow-y: auto; /* allows scrolling */
+  box-sizing: border-box;
+  background-color: #f5f6fa;
+  scroll-behavior: smooth;
+}
+
+/* Optional: scroll bar style */
+.main-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: #f5f6fa;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: #6a11cb;
+  border-radius: 5px;
+}

@@ -1,0 +1,128 @@
+/* AuditLog.css */
+.main-content {
+  margin-left: 280px; /* sidebar width */
+  padding: 30px 40px;
+  min-height: 100vh;
+  width: calc(100% - 280px);
+  box-sizing: border-box;
+  overflow-x: auto; /* allow horizontal scroll for small screens */
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  margin: 30px 0 35px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 30px;
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px; /* keep table/form within website ratio */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-section input {
+  margin-right: 15px;
+  margin-bottom: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  width: 200px;
+}
+
+.form-section button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  table-layout: fixed; /* keep columns proportional */
+}
+
+.customer-table th,
+.customer-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  word-wrap: break-word; /* wrap long text */
+}
+
+.customer-table th {
+  background: linear-gradient(135deg, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
+  color: white;
+}
+
+.customer-table td {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-weight: 500;
+}
+
+/* Make table responsive */
+@media screen and (max-width: 1280px) {
+  .main-content {
+    padding: 20px;
+    width: calc(100% - 280px);
+  }
+
+  .form-section input {
+    width: 150px;
+  }
+
+  .customer-table th,
+  .customer-table td {
+    padding: 12px 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 15px;
+  }
+
+  .form-section {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .form-section input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .customer-table {
+    min-width: 600px;
+  }
+}

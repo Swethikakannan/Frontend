@@ -1,0 +1,88 @@
+/* Account.css styled same as Customers.css */
+
+h2, h3 {
+  color: #2f3640;
+  margin-bottom: 15px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.form-section:hover {
+  transform: translateY(-2px);
+}
+
+.form-section input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-section input:focus {
+  outline: none;
+  border-color: #4b7bec;
+}
+
+.form-section button,
+.delete-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.form-section button:hover,
+.delete-btn:hover {
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  transform: translateY(-2px);
+}
+
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+.account-table th, .account-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.account-table th {
+  background-color: #6a11cb;
+  color: white;
+  font-weight: 600;
+}
+
+.account-table tbody tr:hover {
+  background-color: #f1f3f8;
+  cursor: pointer;
+}
+
+.main-content {
+  margin-left: 240px;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #f5f6fa;
+}

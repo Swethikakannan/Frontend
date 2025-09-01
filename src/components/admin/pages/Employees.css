@@ -1,0 +1,86 @@
+/* Employee Table - matches Loan/Customer/Account design */
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 18px 24px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Gradient Header */
+.employee-table th {
+  background: linear-gradient(135deg, rgba(143, 0, 255, 0.9), rgba(102, 126, 234, 0.9));
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.employee-table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+}
+
+/* Body cells */
+.employee-table td {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-weight: 500;
+}
+
+/* Row hover effect */
+.employee-table tbody tr {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.employee-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateX(5px);
+  cursor: pointer;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.employee-table tbody tr:hover td {
+  color: #2f3640;
+  font-weight: 600;
+}
+
+/* Delete button (styled to match) */
+.delete-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #ff1a1a, #cc0000);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+}
