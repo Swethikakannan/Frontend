@@ -44,8 +44,8 @@ export default function AuditLog() {
 
   return (
     <div className="main-content">
-      <h2>Audit Logs</h2>
-      <button onClick={fetchAll}>Show All Logs</button>
+      <h2>📝Audit Logs</h2>
+      <button onClick={fetchAll}>🗒️Show All Logs</button>
       {error && <p className="error">{error}</p>}
 
       {showList && logs.length > 0 && (
@@ -57,7 +57,7 @@ export default function AuditLog() {
               <th>Username</th>
               <th>Action</th>
               <th>Details</th>
-              <th>Timestamp</th>
+              {/* <th>Timestamp</th> */}
             </tr>
           </thead>
           <tbody>
@@ -68,7 +68,7 @@ export default function AuditLog() {
                 <td>{l.Username}</td>
                 <td>{l.Action}</td>
                 <td>{l.Details}</td>
-                <td>{l.LogTimestamp || "-"}</td>
+                {/* <td>{l.LogTimestamp || "-"}</td> */}
               </tr>
             ))}
           </tbody>

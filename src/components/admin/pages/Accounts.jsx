@@ -105,12 +105,12 @@ export default function Accounts() {
 
   return (
     <div className="main-content">
-      <h2>Account Management</h2>
+      <h2>🧧Account Management</h2>
       {error && <p className="error">{error}</p>}
 
       {/* Show Accounts by Customer */}
       <div className="form-section">
-        <h3>Find Accounts by Customer</h3>
+        <h3>🪙Accounts by Customer id</h3>
         <input
           type="text"
           placeholder="Customer ID"
@@ -166,7 +166,7 @@ export default function Accounts() {
 
       {/* Show Account by ID */}
       <div className="form-section">
-        <h3>Find Account by ID</h3>
+        <h3>🪙Find Account by ID</h3>
         <input
           type="text"
           placeholder="Account ID"
@@ -214,7 +214,7 @@ export default function Accounts() {
 
       {/* Create Account */}
       <div className="form-section">
-        <h3>Create Account</h3>
+        <h3>🪙Create Account</h3>
         {Object.keys(newAccount).map((key) => (
           <input
             key={key}
@@ -231,3 +231,4 @@ export default function Accounts() {
     </div>
   );
 }
+

@@ -6,115 +6,115 @@ import {
   getAllTransactions,
   getTransactionById,
   getTransactionsByAccountId,
-  getPagedTransactions,
 } from "../../../services/transaction.Service";
-
 import "./Transaction.css";
 
 export default function Transactions() {
-  // Deposit, Withdraw, Transfer state
   const [depositData, setDepositData] = useState({ AccountId: "", Amount: "", Remarks: "" });
-  const [withdrawData, setWithdrawData] = useState({
-    AccountId: "",
-    TransactionType: "2",
-    Amount: "",
-    TargetAccountNumber: "",
-    Remarks: "",
-  });
+  const [withdrawData, setWithdrawData] = useState({ AccountId: "", Amount: "", TargetAccountNumber: "", Remarks: "" });
   const [transferData, setTransferData] = useState({ FromAccountId: "", ToAccountId: "", Amount: "", Remarks: "" });
 
-  // Transaction fetch states
   const [allTransactions, setAllTransactions] = useState([]);
   const [transaction, setTransaction] = useState(null);
   const [accountTransactions, setAccountTransactions] = useState([]);
   const [inputId, setInputId] = useState("");
   const [accountId, setAccountId] = useState("");
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [error, setError] = useState("");
 
-  // Deposit
+  // Normalize API response
+  const normalizeData = (data) => {
+    if (!data) return [];
+    if (data.$values) return data.$values;
+    if (Array.isArray(data)) return data;
+    return [data];
+  };
+
   const handleDeposit = async () => {
     try {
-      const res = await deposit(depositData);
-      alert("Deposit Successful!");
-      console.log(res.data);
+      await deposit({
+        AccountId: parseInt(depositData.AccountId),
+        Amount: parseFloat(depositData.Amount),
+        Remarks: depositData.Remarks || "",
+      });
+      alert("✅ Deposit Successful");
+      setDepositData({ AccountId: "", Amount: "", Remarks: "" });
     } catch (err) {
-      alert("Deposit Failed!");
       console.error(err);
+      alert("❌ Deposit Failed");
     }
   };
 
-  // Withdraw
   const handleWithdraw = async () => {
     try {
-      const res = await withdraw(withdrawData);
-      alert("Withdraw Successful!");
-      console.log(res.data);
+      await withdraw({
+        AccountId: parseInt(withdrawData.AccountId),
+        Amount: parseFloat(withdrawData.Amount),
+        TargetAccountNumber: withdrawData.TargetAccountNumber
+          ? parseInt(withdrawData.TargetAccountNumber)
+          : null,
+        Remarks: withdrawData.Remarks || "",
+      });
+      alert("✅ Withdrawal Successful");
+      setWithdrawData({ AccountId: "", Amount: "", TargetAccountNumber: "", Remarks: "" });
     } catch (err) {
-      alert("Withdraw Failed!");
       console.error(err);
+      alert("❌ Withdrawal Failed");
     }
   };
 
-  // Transfer
   const handleTransfer = async () => {
     try {
-      const res = await transfer(transferData);
-      alert("Transfer Successful!");
-      console.log(res.data);
+      await transfer({
+        FromAccountId: parseInt(transferData.FromAccountId),
+        ToAccountId: parseInt(transferData.ToAccountId),
+        Amount: parseFloat(transferData.Amount),
+        Remarks: transferData.Remarks || "",
+      });
+      alert("✅ Transfer Successful");
+      setTransferData({ FromAccountId: "", ToAccountId: "", Amount: "", Remarks: "" });
     } catch (err) {
-      alert("Transfer Failed!");
       console.error(err);
+      alert("❌ Transfer Failed");
     }
   };
 
-  // Get All Transactions
-  const handleGetAll = async () => {
+  const fetchAll = async () => {
     try {
       const res = await getAllTransactions();
-      setAllTransactions(res.data.$values || []);
+      setAllTransactions(normalizeData(res.data));
+      setError("");
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch all transactions!");
+      setError("Failed to fetch transactions");
     }
   };
 
-  // Get Transaction by ID
-  const handleGetById = async () => {
+  const fetchById = async () => {
     if (!inputId) return alert("Enter Transaction ID");
     try {
       const res = await getTransactionById(inputId);
       setTransaction(res.data);
+      setError("");
     } catch (err) {
       console.error(err);
-      alert("Transaction not found!");
+      setTransaction(null);
+      setError("Transaction not found");
     }
   };
 
-  // Get Transactions by Account ID
-  const handleGetByAccount = async () => {
+  const fetchByAccount = async () => {
     if (!accountId) return alert("Enter Account ID");
     try {
       const res = await getTransactionsByAccountId(accountId);
-      setAccountTransactions(res.data.$values || []);
+      setAccountTransactions(normalizeData(res.data));
+      setError("");
     } catch (err) {
       console.error(err);
-      alert("No transactions found for this account!");
+      setAccountTransactions([]);
+      setError("No transactions for this account");
     }
   };
 
-  // Get Paged Transactions
-  const handleGetPaged = async () => {
-    try {
-      const res = await getPagedTransactions(pageNumber, pageSize);
-      setAllTransactions(res.data.$values || []);
-    } catch (err) {
-      console.error(err);
-      alert("Failed to fetch paged transactions!");
-    }
-  };
-
-  // Reusable Table Component
   const TransactionTable = ({ data, title }) => (
     <div className="table-section">
       <h4>{title}</h4>
@@ -122,13 +122,13 @@ export default function Transactions() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>From Account</th>
-            <th>To Account</th>
+            <th>From</th>
+            <th>To</th>
             <th>Type</th>
             <th>Amount</th>
             <th>Remarks</th>
             <th>Date</th>
-            <th>Balance After</th>
+            {/* <th>Balance After</th> */}
           </tr>
         </thead>
         <tbody>
@@ -141,7 +141,7 @@ export default function Transactions() {
               <td>{t.Amount}</td>
               <td>{t.Remarks}</td>
               <td>{new Date(t.TransactionDate).toLocaleString()}</td>
-              <td>{t.BalanceAfterTransaction}</td>
+              {/* <td>{t.BalanceAfterTransaction}</td> */}
             </tr>
           ))}
         </tbody>
@@ -151,107 +151,58 @@ export default function Transactions() {
 
   return (
     <div className="main-content">
-      <h2>Transactions</h2>
+      <h2>🔄️Transactions</h2>
+      {error && <p className="error">{error}</p>}
 
-      {/* Deposit Section */}
+      {/* Deposit */}
       <div className="form-section">
-        <h3>Deposit</h3>
-        <input type="number" placeholder="AccountId"
-          value={depositData.AccountId}
-          onChange={(e) => setDepositData({ ...depositData, AccountId: e.target.value })}
-        />
-        <input type="number" placeholder="Amount"
-          value={depositData.Amount}
-          onChange={(e) => setDepositData({ ...depositData, Amount: e.target.value })}
-        />
-        <input type="text" placeholder="Remarks"
-          value={depositData.Remarks}
-          onChange={(e) => setDepositData({ ...depositData, Remarks: e.target.value })}
-        />
+        <h3>🪙Deposit</h3>
+        <input placeholder="AccountId" value={depositData.AccountId} onChange={(e) => setDepositData({ ...depositData, AccountId: e.target.value })} />
+        <input placeholder="Amount" value={depositData.Amount} onChange={(e) => setDepositData({ ...depositData, Amount: e.target.value })} />
+        <input placeholder="Remarks" value={depositData.Remarks} onChange={(e) => setDepositData({ ...depositData, Remarks: e.target.value })} />
         <button onClick={handleDeposit}>Deposit</button>
       </div>
 
-      <hr />
-
-      {/* Withdraw Section */}
+      {/* Withdraw */}
       <div className="form-section">
-        <h3>Withdraw</h3>
-        <input type="number" placeholder="AccountId"
-          value={withdrawData.AccountId}
-          onChange={(e) => setWithdrawData({ ...withdrawData, AccountId: e.target.value })}
-        />
-        <input type="number" placeholder="Amount"
-          value={withdrawData.Amount}
-          onChange={(e) => setWithdrawData({ ...withdrawData, Amount: e.target.value })}
-        />
-        <input type="number" placeholder="Target Account Number"
-          value={withdrawData.TargetAccountNumber}
-          onChange={(e) => setWithdrawData({ ...withdrawData, TargetAccountNumber: e.target.value })}
-        />
-        <input type="text" placeholder="Remarks"
-          value={withdrawData.Remarks}
-          onChange={(e) => setWithdrawData({ ...withdrawData, Remarks: e.target.value })}
-        />
+        <h3>🪙Withdraw</h3>
+        <input placeholder="AccountId" value={withdrawData.AccountId} onChange={(e) => setWithdrawData({ ...withdrawData, AccountId: e.target.value })} />
+        <input placeholder="Amount" value={withdrawData.Amount} onChange={(e) => setWithdrawData({ ...withdrawData, Amount: e.target.value })} />
+        <input placeholder="Target Account" value={withdrawData.TargetAccountNumber} onChange={(e) => setWithdrawData({ ...withdrawData, TargetAccountNumber: e.target.value })} />
+        <input placeholder="Remarks" value={withdrawData.Remarks} onChange={(e) => setWithdrawData({ ...withdrawData, Remarks: e.target.value })} />
         <button onClick={handleWithdraw}>Withdraw</button>
       </div>
 
-      <hr />
-
-      {/* Transfer Section */}
+      {/* Transfer */}
       <div className="form-section">
-        <h3>Transfer</h3>
-        <input type="number" placeholder="From AccountId"
-          value={transferData.FromAccountId}
-          onChange={(e) => setTransferData({ ...transferData, FromAccountId: e.target.value })}
-        />
-        <input type="number" placeholder="To AccountId"
-          value={transferData.ToAccountId}
-          onChange={(e) => setTransferData({ ...transferData, ToAccountId: e.target.value })}
-        />
-        <input type="number" placeholder="Amount"
-          value={transferData.Amount}
-          onChange={(e) => setTransferData({ ...transferData, Amount: e.target.value })}
-        />
-        <input type="text" placeholder="Remarks"
-          value={transferData.Remarks}
-          onChange={(e) => setTransferData({ ...transferData, Remarks: e.target.value })}
-        />
+        <h3>🪙Transfer</h3>
+        <input placeholder="From Account" value={transferData.FromAccountId} onChange={(e) => setTransferData({ ...transferData, FromAccountId: e.target.value })} />
+        <input placeholder="To Account" value={transferData.ToAccountId} onChange={(e) => setTransferData({ ...transferData, ToAccountId: e.target.value })} />
+        <input placeholder="Amount" value={transferData.Amount} onChange={(e) => setTransferData({ ...transferData, Amount: e.target.value })} />
+        <input placeholder="Remarks" value={transferData.Remarks} onChange={(e) => setTransferData({ ...transferData, Remarks: e.target.value })} />
         <button onClick={handleTransfer}>Transfer</button>
       </div>
 
-      <hr />
-
-      {/* Fetch Section */}
+      {/* Fetch */}
       <div className="form-section">
-        <h3>Fetch Transactions</h3>
+        <h3>🪙Fetch Transactions</h3>
 
-        {/* Get All */}
-        <div className="fetch-section">
-          <button onClick={handleGetAll}>Get All</button>
-          {allTransactions.length > 0 && <TransactionTable data={allTransactions} title="Transactions List" />}
+        <div>
+          <button onClick={fetchAll}>Get All</button>
+          {allTransactions.length > 0 && <TransactionTable data={allTransactions} title="All Transactions" />}
         </div>
 
-        {/* Get by Transaction ID */}
-        <div className="fetch-section">
-          <input type="number" placeholder="Transaction ID" value={inputId} onChange={(e) => setInputId(e.target.value)} />
-          <button onClick={handleGetById}>Get By Transaction ID</button>
+        <div>
+          <input placeholder="Transaction ID" value={inputId} onChange={(e) => setInputId(e.target.value)} />
+          <button onClick={fetchById}>Get By Transaction ID</button>
           {transaction && <TransactionTable data={[transaction]} title="Transaction Detail" />}
         </div>
 
-        {/* Get by Account ID */}
-        <div className="fetch-section">
-          <input type="number" placeholder="Account ID" value={accountId} onChange={(e) => setAccountId(e.target.value)} />
-          <button onClick={handleGetByAccount}>Get By Account ID</button>
-          {accountTransactions.length > 0 && <TransactionTable data={accountTransactions} title="Transactions List" />}
+        <div>
+          <input placeholder="Account ID" value={accountId} onChange={(e) => setAccountId(e.target.value)} />
+          <button onClick={fetchByAccount}>Get By Account ID</button>
+          {accountTransactions.length > 0 && <TransactionTable data={accountTransactions} title="Transactions By Account" />}
         </div>
-
-        {/* Get Paged */}
-        {/* <div className="fetch-section">
-          <input type="number" placeholder="Page Number" value={pageNumber} onChange={(e) => setPageNumber(e.target.value)} />
-          <input type="number" placeholder="Page Size" value={pageSize} onChange={(e) => setPageSize(e.target.value)} />
-          <button onClick={handleGetPaged}>Get Paged</button>
-          {allTransactions.length > 0 && <TransactionTable data={allTransactions} title="Paged Transactions" />}
-        </div> */}
       </div>
     </div>
   );

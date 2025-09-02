@@ -28,8 +28,9 @@ export default function Navbar() {
           <li><NavLink to="customer/accounts">Accounts</NavLink></li>
           <li><NavLink to="customer/transactions">Transactions</NavLink></li>
           <li><NavLink to="customer/beneficiaries">Beneficiaries</NavLink></li>
-          <li><NavLink to="customer/profile">Profile</NavLink></li>
           <li><NavLink to="customer/loans">Loans</NavLink></li>
+          <li><NavLink to="customer/profile">Profile</NavLink></li>
+          
         </ul>
       </div>
     </nav>

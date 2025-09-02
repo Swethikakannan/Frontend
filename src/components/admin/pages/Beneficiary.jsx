@@ -83,11 +83,11 @@ export default function Beneficiary() {
 
   return (
     <div className="main-content">
-      <h2>Beneficiary Management</h2>
+      <h2>🎯Beneficiary Management</h2>
 
       {/* Add Beneficiary */}
       <div className="form-section">
-        <h3>Add Beneficiary</h3>
+        <h3>🪙Add Beneficiary</h3>
         {Object.keys(newBeneficiary).map((key) => (
           <input
             key={key}
@@ -102,7 +102,7 @@ export default function Beneficiary() {
 
       {/* Fetch Beneficiaries */}
       <div className="form-section">
-        <h3>Fetch Beneficiaries</h3>
+        <h3>🪙Fetch Beneficiaries</h3>
         <input
           type="number"
           placeholder="Customer ID"

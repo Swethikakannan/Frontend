@@ -1,43 +1,67 @@
+
 // import axios from "axios";
 
-// const API_BASE = "https://localhost:7157/api/CustomerProfile";
+// const API_URL = "https://localhost:7157/api/CustomerProfile";
 
-// class CustomerService {
-//   // Add new customer
-//   addCustomer(customerData) {
-//     return axios.post(`${API_BASE}/add`, customerData);
+// // ✅ Create an Axios instance with auth header
+// const axiosInstance = axios.create({
+//   baseURL: API_URL,
+// });
+
+// // Add Authorization header automatically
+// axiosInstance.interceptors.request.use((config) => {
+//   const token = sessionStorage.getItem("token"); // get token from sessionStorage
+//   if (token) {
+//     config.headers["Authorization"] = `Bearer ${token}`;
 //   }
+//   return config;
+// });
 
-//   // Get all customers
-//   getAllCustomers() {
-//     return axios.get(`${API_BASE}/all`);
-//   }
+// // Fetch all customers
+// export const getAllCustomers = async () => {
+//   return await axiosInstance.get("/all");
+// };
 
-//   // Get customer by ID
-//   getCustomerById(customerId) {
-//     return axios.get(`${API_BASE}/${customerId}`);
-//   }
+// // Fetch customer by ID
+// export const getCustomerById = async (customerId) => {
+//   return await axiosInstance.get(`/${customerId}`);
+// };
 
-//   // Update customer by ID
-//   updateCustomer(customerId, updatedData) {
-//     return axios.put(`${API_BASE}/${customerId}`, updatedData);
-//   }
-// }
+// // Add a customer
+// export const addCustomer = async (customerData) => {
+//   return await axiosInstance.post("/add", customerData);
+// };
 
-// export default new CustomerService();
+// // Update a customer
+// export const updateCustomer = async (customerId, customerData) => {
+//   return await axiosInstance.put(`/update/${customerId}`, customerData);
+// };
 
+// // Delete a customer
+// export const deleteCustomer = async (customerId) => {
+//   return await axiosInstance.delete(`/${customerId}`);
+// };
+
+// const CustomerService = {
+//   getAllCustomers,
+//   getCustomerById,
+//   addCustomer,
+//   updateCustomer,
+//   deleteCustomer,
+// };
+
+// export default CustomerService;
 import axios from "axios";
 
 const API_URL = "https://localhost:7157/api/CustomerProfile";
 
-// ✅ Create an Axios instance with auth header
+// Axios instance with Authorization header
 const axiosInstance = axios.create({
   baseURL: API_URL,
 });
 
-// Add Authorization header automatically
 axiosInstance.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("token"); // get token from sessionStorage
+  const token = sessionStorage.getItem("token");
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }
@@ -45,31 +69,23 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 // Fetch all customers
-export const getAllCustomers = async () => {
-  return await axiosInstance.get("/all");
-};
+export const getAllCustomers = async () => axiosInstance.get("/all");
 
 // Fetch customer by ID
-export const getCustomerById = async (customerId) => {
-  return await axiosInstance.get(`/${customerId}`);
-};
+export const getCustomerById = async (customerId) => axiosInstance.get(`/${customerId}`);
 
-// Add a customer
-export const addCustomer = async (customerData) => {
-  return await axiosInstance.post("/add", customerData);
-};
+// Add customer
+export const addCustomer = async (customerData) => axiosInstance.post("/add", customerData);
 
-// Update a customer
-export const updateCustomer = async (customerId, customerData) => {
-  return await axiosInstance.put(`/update/${customerId}`, customerData);
-};
+// Update customer ✅ fixed URL
+export const updateCustomer = async (customerId, customerData) =>
+  axiosInstance.put(`/${customerId}`, customerData);
 
-// Delete a customer
-export const deleteCustomer = async (customerId) => {
-  return await axiosInstance.delete(`/delete/${customerId}`);
-};
+// Delete customer
+export const deleteCustomer = async (customerId) =>
+  axiosInstance.delete(`/${customerId}`);
 
-// ✅ Default export (so Customers.jsx can use CustomerService.something())
+// Default export
 const CustomerService = {
   getAllCustomers,
   getCustomerById,

@@ -175,11 +175,11 @@ export default function Loan() {
 
   return (
     <div className="main-content">
-      <h2>Loan Management</h2>
+      <h2>💸Loan Management</h2>
 
       {/* Apply Loan */}
       <div className="form-section">
-        <h3>Apply Loan</h3>
+        <h3>🪙Apply Loan</h3>
         {Object.keys(newLoan).map((key) => (
           <input
             key={key}
@@ -194,7 +194,7 @@ export default function Loan() {
 
       {/* Loan Actions */}
       <div className="form-section">
-        <h3>Loan Actions</h3>
+        <h3>🪙Loan Actions</h3>
         <button onClick={fetchAllLoans}>All Loans</button>
         <button onClick={fetchDisbursedLoans}>Disbursed Loans</button>
         <button onClick={fetchPendingLoans}>Pending Loans</button>
@@ -216,3 +216,5 @@ export default function Loan() {
     </div>
   );
 }
+
+

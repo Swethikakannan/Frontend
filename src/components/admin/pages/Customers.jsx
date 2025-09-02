@@ -1,15 +1,19 @@
 
-
 // import React, { useState } from "react";
-// import * as CustomerService from "../../../services/customers.service"; 
+// import * as CustomerService from "../../../services/customers.service";
 // import "./Customers.css";
 
 // export default function Customers() {
 //   const [customers, setCustomers] = useState([]);
+//   const [singleCustomer, setSingleCustomer] = useState(null);
+//   const [error, setError] = useState("");
+//   const [showList, setShowList] = useState(false);
+//   const [customerId, setCustomerId] = useState("");
+
 //   const [newCustomer, setNewCustomer] = useState({
-//     userId: "",
-//     fullName: "",
-//     genderId: "",
+//     UserId: "",
+//     FullName: "",
+//     GenderId: "",
 //     dob: "",
 //     phoneNumber: "",
 //     aadharNumber: "",
@@ -18,17 +22,13 @@
 //     city: "",
 //     state: "",
 //   });
+
 //   const [updateData, setUpdateData] = useState({
+//     phoneNumber: "",
 //     city: "",
 //     state: "",
-//     phoneNumber: "",
 //   });
-//   const [customerId, setCustomerId] = useState("");
-//   const [singleCustomer, setSingleCustomer] = useState(null);
-//   const [error, setError] = useState("");
-//   const [showList, setShowList] = useState(false);
 
-//   // 🔄 Normalize .NET object → camelCase
 //   const normalizeCustomer = (c) => ({
 //     customerId: c.CustomerId,
 //     userId: c.UserId,
@@ -44,31 +44,35 @@
 //     age: c.Age,
 //   });
 
-//   // ✅ Fetch all customers
+//   const extractData = (data) => {
+//     if (!data) return [];
+//     if (data.$values) return data.$values.map(normalizeCustomer);
+//     if (Array.isArray(data)) return data.map(normalizeCustomer);
+//     return [normalizeCustomer(data)];
+//   };
+
 //   const fetchAll = async () => {
 //     try {
 //       const res = await CustomerService.getAllCustomers();
-//       let data = res.data;
-//       if (data && data.$values) data = data.$values;
-
-//       const normalized = data.map(normalizeCustomer);
+//       const normalized = extractData(res.data);
 //       setCustomers(normalized);
 //       setShowList(true);
+//       setError("");
 //     } catch (err) {
 //       console.error("❌ Error fetching customers:", err);
 //       setError("Failed to fetch customers");
+//       setCustomers([]);
+//       setShowList(false);
 //     }
 //   };
 
-//   // ✅ Fetch single customer by ID
 //   const fetchById = async () => {
-//     if (!customerId) return;
+//     if (!customerId) return alert("Enter Customer ID");
 //     try {
 //       const res = await CustomerService.getCustomerById(customerId);
-//       let data = res.data;
-//       if (data.$values) data = data.$values[0];
-
-//       setSingleCustomer(normalizeCustomer(data));
+//       const normalized = extractData(res.data);
+//       setSingleCustomer(normalized[0] || null);
+//       setError("");
 //     } catch (err) {
 //       console.error("❌ Error fetching customer:", err);
 //       setError("Customer not found");
@@ -76,7 +80,6 @@
 //     }
 //   };
 
-//   // ✅ Add customer
 //   const addCustomer = async () => {
 //     try {
 //       await CustomerService.addCustomer(newCustomer);
@@ -100,12 +103,8 @@
 //     }
 //   };
 
-//   // ✅ Update customer
 //   const updateCustomer = async () => {
-//     if (!customerId) {
-//       alert("Enter Customer ID to update");
-//       return;
-//     }
+//     if (!customerId) return alert("Enter Customer ID to update");
 //     try {
 //       await CustomerService.updateCustomer(customerId, updateData);
 //       alert("✅ Customer updated successfully!");
@@ -116,7 +115,6 @@
 //     }
 //   };
 
-//   // ✅ Delete customer
 //   const handleDelete = async (id) => {
 //     if (!window.confirm("Are you sure you want to delete this customer?")) return;
 //     try {
@@ -131,16 +129,14 @@
 //   };
 
 //   return (
-//     <div className="customer-container">
+//     <div className="main-content">
 //       <h2>Customer Management</h2>
 
-//       {/* 🔘 Fetch all customers */}
 //       <button onClick={fetchAll}>Show All Customers</button>
-//       {error && <p style={{ color: "red" }}>{error}</p>}
+//       {error && <p className="error">{error}</p>}
 
-//       {/* ✅ Customer Table */}
 //       {showList && (
-//         <div className="list-section">
+//         <div className="form-section">
 //           <h3>All Customers</h3>
 //           {customers.length === 0 ? (
 //             <p>No customers found.</p>
@@ -165,10 +161,7 @@
 //                     <td>{c.city}</td>
 //                     <td>{c.state}</td>
 //                     <td>
-//                       <button
-//                         className="delete-btn"
-//                         onClick={() => handleDelete(c.customerId)}
-//                       >
+//                       <button className="delete-btn" onClick={() => handleDelete(c.customerId)}>
 //                         Delete
 //                       </button>
 //                     </td>
@@ -180,7 +173,7 @@
 //         </div>
 //       )}
 
-//       {/* Add Customer */}
+//       {/* Add Customer Form */}
 //       <div className="form-section">
 //         <h3>Add Customer</h3>
 //         {Object.keys(newCustomer).map((key) => (
@@ -189,15 +182,13 @@
 //             type="text"
 //             placeholder={key}
 //             value={newCustomer[key]}
-//             onChange={(e) =>
-//               setNewCustomer({ ...newCustomer, [key]: e.target.value })
-//             }
+//             onChange={(e) => setNewCustomer({ ...newCustomer, [key]: e.target.value })}
 //           />
 //         ))}
 //         <button onClick={addCustomer}>Add</button>
 //       </div>
 
-//       {/* Update Customer */}
+//       {/* Update Customer Form */}
 //       <div className="form-section">
 //         <h3>Update Customer</h3>
 //         <input
@@ -212,15 +203,13 @@
 //             type="text"
 //             placeholder={key}
 //             value={updateData[key]}
-//             onChange={(e) =>
-//               setUpdateData({ ...updateData, [key]: e.target.value })
-//             }
+//             onChange={(e) => setUpdateData({ ...updateData, [key]: e.target.value })}
 //           />
 //         ))}
 //         <button onClick={updateCustomer}>Update</button>
 //       </div>
 
-//       {/* Get By ID */}
+//       {/* Fetch Single Customer */}
 //       <div className="form-section">
 //         <h3>Get Customer By ID</h3>
 //         <input
@@ -251,10 +240,7 @@
 //                 <td>{singleCustomer.city}</td>
 //                 <td>{singleCustomer.state}</td>
 //                 <td>
-//                   <button
-//                     className="delete-btn"
-//                     onClick={() => handleDelete(singleCustomer.customerId)}
-//                   >
+//                   <button className="delete-btn" onClick={() => handleDelete(singleCustomer.customerId)}>
 //                     Delete
 //                   </button>
 //                 </td>
@@ -266,6 +252,7 @@
 //     </div>
 //   );
 // }
+
 import React, { useState } from "react";
 import * as CustomerService from "../../../services/customers.service";
 import "./Customers.css";
@@ -278,9 +265,9 @@ export default function Customers() {
   const [customerId, setCustomerId] = useState("");
 
   const [newCustomer, setNewCustomer] = useState({
-    userId: "",
-    fullName: "",
-    genderId: "",
+    UserId: "",
+    FullName: "",
+    GenderId: "",
     dob: "",
     phoneNumber: "",
     aadharNumber: "",
@@ -347,15 +334,22 @@ export default function Customers() {
     }
   };
 
+  // ------------------ Add Customer ------------------
   const addCustomer = async () => {
     try {
-      await CustomerService.addCustomer(newCustomer);
+      const res = await CustomerService.addCustomer(newCustomer);
+
+      if (res.data === "Customer already exists.") {
+        setError("⚠️ Customer already exists!");
+        return;
+      }
+
       alert("✅ Customer added successfully!");
       fetchAll();
       setNewCustomer({
-        userId: "",
-        fullName: "",
-        genderId: "",
+        UserId: "",
+        FullName: "",
+        GenderId: "",
         dob: "",
         phoneNumber: "",
         aadharNumber: "",
@@ -364,21 +358,30 @@ export default function Customers() {
         city: "",
         state: "",
       });
+      setError("");
     } catch (err) {
       console.error("❌ Error adding customer:", err);
-      setError("Failed to add customer");
+      setError("❌ Failed to add customer");
     }
   };
 
+  // ------------------ Update Customer ------------------
   const updateCustomer = async () => {
     if (!customerId) return alert("Enter Customer ID to update");
     try {
-      await CustomerService.updateCustomer(customerId, updateData);
+      const res = await CustomerService.updateCustomer(customerId, updateData);
+
+      if (res.data === "Phone number or email already exists.") {
+        setError("⚠️ Phone number or email already exists!");
+        return;
+      }
+
       alert("✅ Customer updated successfully!");
       fetchAll();
+      setError("");
     } catch (err) {
       console.error("❌ Error updating customer:", err);
-      setError("Failed to update customer");
+      setError("❌ Failed to update customer");
     }
   };
 
@@ -397,9 +400,9 @@ export default function Customers() {
 
   return (
     <div className="main-content">
-      <h2>Customer Management</h2>
+      <h2>🫅🏻Customer Management</h2>
 
-      <button onClick={fetchAll}>Show All Customers</button>
+      <button onClick={fetchAll}>🪙Show All Customers</button>
       {error && <p className="error">{error}</p>}
 
       {showList && (
@@ -428,7 +431,10 @@ export default function Customers() {
                     <td>{c.city}</td>
                     <td>{c.state}</td>
                     <td>
-                      <button className="delete-btn" onClick={() => handleDelete(c.customerId)}>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(c.customerId)}
+                      >
                         Delete
                       </button>
                     </td>
@@ -442,14 +448,16 @@ export default function Customers() {
 
       {/* Add Customer Form */}
       <div className="form-section">
-        <h3>Add Customer</h3>
+        <h3>🪙Add Customer</h3>
         {Object.keys(newCustomer).map((key) => (
           <input
             key={key}
-            type="text"
+            type={key === "dob" ? "date" : "text"} // calendar for DOB
             placeholder={key}
             value={newCustomer[key]}
-            onChange={(e) => setNewCustomer({ ...newCustomer, [key]: e.target.value })}
+            onChange={(e) =>
+              setNewCustomer({ ...newCustomer, [key]: e.target.value })
+            }
           />
         ))}
         <button onClick={addCustomer}>Add</button>
@@ -457,7 +465,7 @@ export default function Customers() {
 
       {/* Update Customer Form */}
       <div className="form-section">
-        <h3>Update Customer</h3>
+        <h3>🪙Update Customer</h3>
         <input
           type="text"
           placeholder="Customer ID"
@@ -470,7 +478,9 @@ export default function Customers() {
             type="text"
             placeholder={key}
             value={updateData[key]}
-            onChange={(e) => setUpdateData({ ...updateData, [key]: e.target.value })}
+            onChange={(e) =>
+              setUpdateData({ ...updateData, [key]: e.target.value })
+            }
           />
         ))}
         <button onClick={updateCustomer}>Update</button>
@@ -478,7 +488,7 @@ export default function Customers() {
 
       {/* Fetch Single Customer */}
       <div className="form-section">
-        <h3>Get Customer By ID</h3>
+        <h3>🪙Get Customer By ID</h3>
         <input
           type="text"
           placeholder="Customer ID"
@@ -507,7 +517,10 @@ export default function Customers() {
                 <td>{singleCustomer.city}</td>
                 <td>{singleCustomer.state}</td>
                 <td>
-                  <button className="delete-btn" onClick={() => handleDelete(singleCustomer.customerId)}>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(singleCustomer.customerId)}
+                  >
                     Delete
                   </button>
                 </td>

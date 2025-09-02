@@ -1,88 +1,532 @@
-/* Account.css styled same as Customers.css */
+/* Customer.css - Enhanced Layout and style like Transactions page */
 
-h2, h3 {
-  color: #2f3640;
-  margin-bottom: 15px;
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
+  color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 184, 108, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  animation: float 6s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+h2, h3, h4 {
+  color: white;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced Form sections with glassmorphism */
 .form-section {
   margin-bottom: 30px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 20px 20px 0 0;
 }
 
 .form-section:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.form-section h3 {
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .form-section input {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   font-size: 14px;
-  transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .form-section input:focus {
   outline: none;
-  border-color: #4b7bec;
+  border-color: #667eea;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
 }
 
+.form-section input::placeholder {
+  color: rgba(51, 51, 51, 0.6);
+}
+
+/* Enhanced Buttons with animations */
 .form-section button,
 .delete-btn {
-  padding: 10px 20px;
+  padding: 14px 28px;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   color: white;
   font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 8px 25px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.form-section button::before,
+.delete-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.form-section button:hover::before,
+.delete-btn:hover::before {
+  left: 100%;
 }
 
 .form-section button:hover,
 .delete-btn:hover {
   background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(106, 17, 203, 0.6);
 }
 
+.form-section button:active,
+.delete-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Enhanced Table Styling with glassmorphism - Applied to BOTH customer-table AND account-table */
+.customer-table,
 .account-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 12px;
+  margin-top: 25px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  background-color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.account-table th, .account-table td {
-  padding: 14px 18px;
+.customer-table th, 
+.customer-table td,
+.account-table th, 
+.account-table td {
+  padding: 18px 24px;
   text-align: left;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
+.customer-table th,
 .account-table th {
-  background-color: #6a11cb;
+  background: linear-gradient(135deg, rgba(106, 17, 203, 0.9), rgba(37, 117, 252, 0.9));
   color: white;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.customer-table th::after,
+.account-table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+}
+
+.customer-table td,
+.account-table td {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-weight: 500;
+}
+
+.customer-table tbody tr,
+.account-table tbody tr {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.customer-table tbody tr:hover,
+.account-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateX(5px);
+  cursor: pointer;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.customer-table tbody tr:hover td,
+.account-table tbody tr:hover td {
+  color: #2f3640;
   font-weight: 600;
 }
 
-.account-table tbody tr:hover {
-  background-color: #f1f3f8;
-  cursor: pointer;
+/* Enhanced Main content with improved layout */
+.main-content {
+  margin-left: 280px; /* Updated to match dashboard */
+  padding: 40px 60px; /* More generous padding */
+  min-height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  background: transparent;
+  scroll-behavior: smooth;
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 280px);
 }
 
-.main-content {
-  margin-left: 240px;
-  padding: 20px;
+/* Enhanced scrollbar styling */
+.main-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+/* Enhanced Sidebar positioning */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px; /* Updated to match dashboard */
   height: 100vh;
-  overflow-y: auto;
-  background-color: #f5f6fa;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Page Title Styling */
+.page-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  margin: 30px 0 35px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+}
+
+.page-title::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #FFD700, #FFA500);
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+/* Loading Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-section,
+.customer-table,
+.account-table {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.form-section:nth-of-type(1) { animation-delay: 0.1s; }
+.form-section:nth-of-type(2) { animation-delay: 0.2s; }
+.customer-table,
+.account-table { animation-delay: 0.3s; }
+
+/* Show All Button - matches form section buttons */
+button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(106, 17, 203, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(106, 17, 203, 0.6);
+}
+
+button:active {
+  transform: translateY(-1px);
+}
+
+/* Action Buttons specific styling */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #43e97b, #38f9d7) !important;
+  box-shadow: 0 8px 25px rgba(67, 233, 123, 0.4) !important;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #38f9d7, #43e97b) !important;
+  box-shadow: 0 12px 35px rgba(67, 233, 123, 0.6) !important;
+}
+
+.view-btn {
+  background: linear-gradient(135deg, #4facfe, #00f2fe) !important;
+  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4) !important;
+}
+
+.view-btn:hover {
+  background: linear-gradient(135deg, #00f2fe, #4facfe) !important;
+  box-shadow: 0 12px 35px rgba(79, 172, 254, 0.6) !important;
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #ff4757, #c44569) !important;
+  box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4) !important;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #c44569, #ff4757) !important;
+  box-shadow: 0 12px 35px rgba(255, 71, 87, 0.6) !important;
+  transform: translateY(-3px) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 30px 40px;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px;
+  }
+  
+  .form-section {
+    padding: 20px;
+  }
+  
+  .form-section input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .customer-table,
+  .account-table {
+    font-size: 14px;
+  }
+  
+  .customer-table th, 
+  .customer-table td,
+  .account-table th, 
+  .account-table td {
+    padding: 12px 16px;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 15px;
+  }
+  
+  .form-section {
+    padding: 15px;
+  }
+  
+  .page-title {
+    font-size: 20px;
+  }
+  
+  .customer-table,
+  .account-table {
+    font-size: 12px;
+  }
+  
+  .customer-table th, 
+  .customer-table td,
+  .account-table th, 
+  .account-table td {
+    padding: 10px 12px;
+  }
+}
+
+/* Error Message Styling */
+.error {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(196, 69, 105, 0.1));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  border-radius: 12px;
+  color: #ff4757;
+  padding: 15px 20px;
+  margin: 15px 0;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.2);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Success Message (if needed) */
+.success {
+  background: linear-gradient(135deg, rgba(67, 233, 123, 0.1), rgba(56, 249, 215, 0.1));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(67, 233, 123, 0.3);
+  border-radius: 12px;
+  color: #43e97b;
+  padding: 15px 20px;
+  margin: 15px 0;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(67, 233, 123, 0.2);
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Focus States for Accessibility */
+.form-section button:focus-visible,
+.delete-btn:focus-visible,
+.edit-btn:focus-visible,
+.view-btn:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+}
+
+.form-section input:focus-visible {
+  outline: 2px solid rgba(102, 126, 234, 0.8);
+  outline-offset: 2px;
+}
+
+/* Table row focus for accessibility */
+.customer-table tbody tr:focus,
+.account-table tbody tr:focus {
+  outline: 2px solid rgba(102, 126, 234, 0.8);
+  outline-offset: -2px;
 }
